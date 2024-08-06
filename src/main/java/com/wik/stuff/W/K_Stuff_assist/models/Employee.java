@@ -16,10 +16,16 @@ public class Employee {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(nullable = false, unique = true)
+    private Long chatId;
+    @Column(nullable = false)
     private String firstName;
+    @Column(nullable = false)
+    private String lastName;
+    @Column(nullable = false)
+    private String numberPhone;
     @Enumerated(EnumType.STRING)
     private Role role;
-    private Long chatId;
 
     @Override
     public final boolean equals(Object o) {
