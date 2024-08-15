@@ -1,5 +1,6 @@
 package com.wik.stuff.W.K_Stuff_assist;
 
+import com.wik.stuff.W.K_Stuff_assist.handler.BotUpdateHandler;
 import com.wik.stuff.W.K_Stuff_assist.config.TelegramBotConfiguration;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
@@ -18,7 +19,8 @@ public class TgBot extends TelegramLongPollingBot {
     private String token;
     @Value("${bot.username}")
     private String botName;
-
+    @Autowired
+    BotUpdateHandler botUpdateHandler;
 
     @Autowired
     TelegramBotConfiguration configuration;
@@ -35,14 +37,14 @@ public class TgBot extends TelegramLongPollingBot {
 
     @Override
     public void onUpdateReceived(Update update) {
-        if (update.hasMessage() && update.getMessage().hasText()) {
-            String messageText = update.getMessage().getText();
-            long chatId = update.getMessage().getChatId();
-
-        user
-            }
-
-            // Добавьте логику для обработки выбора роли и сохранения данных пользователя
-        }
+        botUpdateHandler.handleUpdate(update);
     }
+
+//    public void sendMessage(SendMessage sendMessage) throws TelegramApiException {
+//        execute(sendMessage);
+//    }
+//
+//    public void sendPhoto(SendPhoto photo) throws TelegramApiException {
+//        execute(photo);
+//    }
 }

@@ -1,6 +1,5 @@
 package com.wik.stuff.W.K_Stuff_assist.models;
 
-import com.wik.stuff.W.K_Stuff_assist.Role;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.proxy.HibernateProxy;
@@ -23,9 +22,12 @@ public class Employee {
     @Column(nullable = false)
     private String lastName;
     @Column(nullable = false)
+    private String middleName;
+    @Column(nullable = false)
     private String numberPhone;
+
     @Enumerated(EnumType.STRING)
-    private Role role;
+    private Position position;
 
     @Override
     public final boolean equals(Object o) {
