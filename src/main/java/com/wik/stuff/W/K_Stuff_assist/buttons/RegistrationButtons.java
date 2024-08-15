@@ -19,39 +19,39 @@ public class RegistrationButtons {
     @Autowired
     private EmployeeService employeeService;
 
-    public SendMessage createJobTitleButtons(long chatId) {
+    public SendMessage createJobTitleButtons(long chatId, boolean hasManager) {
         SendMessage message = new SendMessage();
         message.setChatId(String.valueOf(chatId));
         message.setText("Пожалуйста, выберите вашу должность:");
 
-        // Создаем кнопки и клавиатуру
-        ReplyKeyboardMarkup keyboardMarkup = new ReplyKeyboardMarkup();
-        List<KeyboardRow> keyboard = new ArrayList<>();
 
-        // Первая строка кнопок
-        KeyboardRow row1 = new KeyboardRow();
-        row1.add(new KeyboardButton("Официант"));
-        row1.add(new KeyboardButton("Стажер - официант"));
+        InlineKeyboardMarkup keyboardMarkup = new InlineKeyboardMarkup();
+        List<List<InlineKeyboardButton>> keyboardsForJob = new ArrayList<>();
 
-        // Вторая строка кнопок
-        KeyboardRow row2 = new KeyboardRow();
-        row2.add(new KeyboardButton("Стажер - ранер."));
-        row2.add(new KeyboardButton("Ранер."));
+        List<InlineKeyboardButton> row1 = new ArrayList<>();
+        row1.add(createButton("Официант", "WAITER"));
+        row1.add(createButton("Стажер официант", "TRAINEE_WAITER"));
 
-        KeyboardRow row3 = new KeyboardRow();
-        if (!employeeService.existsManager()) {
-            row3.add(new KeyboardButton("Менеджер"));
+        List<InlineKeyboardButton> row2 = new ArrayList<>();
+        row2.add(createButton("Стажер - помощник официанта", " TRAINEE_ASSISTANT_WAITER"));
+        row2.add(createButton("Помощник официанта", "ASSISTANT_WAITER"));
+
+        List<InlineKeyboardButton> row3 = new ArrayList<>();
+        if (!hasManager) {
+            row3.add(createButton("Управляющий", "MANAGER"));
         }
-
-        // Добавляем строки в клавиатуру
-        keyboard.add(row1);
-        keyboard.add(row2);
-        keyboard.add(row3);
-        // Настраиваем клавиатуру
-        keyboardMarkup.setKeyboard(keyboard);
-        keyboardMarkup.setResizeKeyboard(true); // Изменяет размер клавиатуры в зависимости от количества кнопок
-
+        keyboardsForJob.add(row1);
+        keyboardsForJob.add(row2);
+        keyboardsForJob.add(row3);
+        keyboardMarkup.setKeyboard(keyboardsForJob);
         message.setReplyMarkup(keyboardMarkup);
         return message;
+    }
+
+    private InlineKeyboardButton createButton(String text, String callBackData) {
+        InlineKeyboardButton button = new InlineKeyboardButton();
+        button.setText(text);
+        button.setCallbackData(callBackData);
+        return button;
     }
 }

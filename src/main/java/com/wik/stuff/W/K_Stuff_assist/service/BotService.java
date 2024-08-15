@@ -92,6 +92,7 @@ public class BotService {
             case PHONE_NUMBER:
                 if (isValidPhoneNumber(string)) {
                     employee.setNumberPhone(string);
+                    messageSender.sendMessage(chatId, "Отлично ");
                     messageSender.sendJobSelectionMessage(chatId, registrationButtons.createJobTitleButtons(chatId));
                     employeeService.updateUserState(chatId, UserState.ROLE);
                 } else {
